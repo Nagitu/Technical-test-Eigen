@@ -1,0 +1,25 @@
+module.exports = {
+  // Root direktori proyek
+  rootDir: '.',
+
+  // Direktori dimana Jest harus mencari file-file test
+  testMatch: ['<rootDir>/tests/**/*.test.js'],
+
+  // Mengatur penggunaan ES modules
+  moduleFileExtensions: ['js', 'json'],
+
+  // Transformasi yang digunakan untuk mengubah kode sebelum diuji
+  transform: {
+    '^.+\\.js$': 'babel-jest',
+  },
+
+  // Pengaturan untuk pengujian async
+  testTimeout: 10000, // Timeout untuk test (ms)
+  
+  // Modul-modul yang harus di-mock
+  // mock: {
+  //   '^module-name$': 'module-name-mock',
+  // },
+
+  // Tambahan konfigurasi lainnya...
+};
