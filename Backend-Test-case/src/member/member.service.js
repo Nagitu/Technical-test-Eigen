@@ -1,6 +1,3 @@
-// Service layer bertujuan untuk handle business logic
-// Kenapa dipisah? Supaya tanggung jawabnya ter-isolate, dan functions-nya
-// reusable
 
 const db = require("../db/index");
 const {

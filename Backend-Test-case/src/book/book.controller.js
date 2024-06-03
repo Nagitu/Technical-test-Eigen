@@ -265,28 +265,34 @@ router.post("/borrow", async (req, res) => {
  */
 
 router.post('/return',async  (req, res) => {
-  const { id, memberCode } = req.body;
-  const borrow = await getBorrowById(id)
-  console.log(borrow);
-  if (borrow.length === 0) {
-    return res.status(404).json({ message: 'Borrow record not found' });
+  try{
+    const { id, memberCode } = req.body;
+    const borrow = await getBorrowById(id)
+    console.log(borrow);
+    if (borrow.length === 0) {
+      return res.status(404).json({ message: 'Borrow record not found' });
+    }
+    if(borrow[0].returned === true){return res.status(404).json({message:'this book already returned'})}
+    if(borrow[0].memberCode != memberCode){return res.status(404).json({ message: 'This not borrowed by you' });}
+    const returnDate = new Date();
+    const borrowedDate = new Date(borrow.borrowedDate);
+    const diffDays = Math.ceil((returnDate - borrowedDate) / (1000 * 60 * 60 * 24));
+  
+    if (diffDays > 7) {
+      const member = members.find(m => m.id === parseInt(memberId));
+      const newDate = new Date(currentDate.setDate(currentDate.getDate() + 3));
+      return updateWarningMember(memberCode,newDate)
+    }
+  
+    const thisTime = new Date;
+    const book = await updateReturn(id,borrow[0].bookCode,thisTime)
+  
+    res.status(200).json(borrow);
+  }catch (error) {
+    console.error('Error borrowing book:', error);
+    return res.status(500).send('Internal server error');
   }
-  if(borrow[0].returned === true){return res.status(404).json({message:'this book already returned'})}
-  if(borrow[0].memberCode != memberCode){return res.status(404).json({ message: 'This not borrowed by you' });}
-  const returnDate = new Date();
-  const borrowedDate = new Date(borrow.borrowedDate);
-  const diffDays = Math.ceil((returnDate - borrowedDate) / (1000 * 60 * 60 * 24));
-
-  if (diffDays > 7) {
-    const member = members.find(m => m.id === parseInt(memberId));
-    const newDate = new Date(currentDate.setDate(currentDate.getDate() + 3));
-    return updateWarningMember(memberCode,newDate)
-  }
-
-  const thisTime = new Date;
-  const book = await updateReturn(id,borrow[0].bookCode,thisTime)
-
-  res.status(200).json(borrow);
+  
 });
 
 

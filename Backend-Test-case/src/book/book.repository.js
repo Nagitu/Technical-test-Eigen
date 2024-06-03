@@ -1,7 +1,5 @@
-// exampleUsage.js
 const db = require('../db');
 
-// Contoh query menggunakan Knex
 async function findAvailBook() {
   try {
     const members = await db('books').where('stock','>',0).select('*');

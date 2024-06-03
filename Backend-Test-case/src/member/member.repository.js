@@ -1,7 +1,6 @@
 // exampleUsage.js
 const db = require('../db');
 
-// Contoh query menggunakan Knex
 async function findExistMember() {
   try {
     const members = await db('members')

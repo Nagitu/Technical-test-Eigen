@@ -2,7 +2,6 @@ const request = require('supertest');
 const { app, startServer, stopServer } = require('../index'); // path ke file index.js
 const memberService = require('../member/member.service');
 
-// Mock getById function
 jest.mock('../member/member.service', () => ({
     getById: jest.fn(),
 }));

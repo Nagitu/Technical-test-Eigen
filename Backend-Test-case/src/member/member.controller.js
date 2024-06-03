@@ -41,9 +41,15 @@ const router = express.Router();
  *         description: Internal server error.
  */
 router.get("/", async (req, res) => {
-  const members = await getExistMember()
-  res.status(200)
-  res.json({data:members});
+  try{
+    const members = await getExistMember()
+    res.status(200)
+    res.json({data:members});
+  }catch (error) {
+    console.error('Error borrowing book:', error);
+    return res.status(500).send('Internal server error');
+  }
+  
 });
 
 /**
@@ -97,12 +103,18 @@ router.get("/", async (req, res) => {
  *         description: Internal server error.
  */
 router.get("/:code", async (req,res) =>{
-  const code = req.params.code;
-  const members = await getById(code);
-  if (members.length === 0) {
-      return res.status(404).json({ message: 'member doesnt exist' });
+  try{
+    const code = req.params.code;
+    const members = await getById(code);
+    if (members.length === 0) {
+        return res.status(404).json({ message: 'member doesnt exist' });
+    }
+    return res.status(200).json({data: members});
+  }catch (error) {
+    console.error('Error get book detail:', error);
+    return res.status(500).send('Internal server error');
   }
-  return res.status(200).json({data: members});
+ 
 })
 
 
