@@ -1,6 +1,6 @@
 const express = require("express");
-const { getAvailableBook ,getBookById, createNewBorrow,getCountBorrowed, getBorrowById, updateReturn} = require("./book.service");
-const {getById,updateWarningMember} = require('../member/member.service');
+const { getAvailableBook ,getBookByCode, createNewBorrow,getCountBorrowed, getBorrowById, updateReturn} = require("./book.service");
+const {getByCode,updateWarningMember} = require('../member/member.service');
 
 
 const router = express.Router();
@@ -111,10 +111,10 @@ router.get("/available", async (req, res) => {
  *       500:
  *         description: Internal server error.
  */
-router.get("/:id", async (req,res) =>{
+router.get("/:code", async (req,res) =>{
   try{
-    const id = req.params.id
-    const book = await getBookById(id)
+    const code= req.params.code
+    const book = await getBookByCode(code)
     if (book.length === 0) {
       return res.status(404).json({ message: 'book not found' });
   }
@@ -177,10 +177,11 @@ router.get("/:id", async (req,res) =>{
  *               type: string
  *               example: 'Internal server error'
  */
-router.post("/borrow", async (req, res) => {
+router.post(":code/borrow", async (req, res) => {
   try {
-    const {memberCode, bookCode } = req.body;
-    const member = await getById(memberCode)
+    const bookCode = req.params.code
+    const {memberCode} = req.body;
+    const member = await getByCode(memberCode)
     if (!memberCode || !bookCode) {
       return res.status(400).send('Member code and book code are required');
     }
@@ -264,9 +265,10 @@ router.post("/borrow", async (req, res) => {
  *               example: 'Internal server error'
  */
 
-router.post('/return',async  (req, res) => {
+router.post('/return/:id',async  (req, res) => {
   try{
-    const { id, memberCode } = req.body;
+    const id = req.params.id
+    const { memberCode } = req.body;
     const borrow = await getBorrowById(id)
     console.log(borrow);
     if (borrow.length === 0) {

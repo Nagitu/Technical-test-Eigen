@@ -2,7 +2,7 @@
 const db = require("../db/index");
 const {
  findExistMember,
- findById,
+ findByCode,
  updateWarningDate
 } = require("./member.repository");
 
@@ -10,8 +10,8 @@ const getExistMember = async () => {
   const members = await findExistMember();
   return members;
 };
-const getById = async(id) =>{
-    const members = await findById(id);
+const getByCode = async(id) =>{
+    const members = await findByCode(id);
     return members;
 }
 
@@ -22,6 +22,6 @@ const updateWarningMember= async(id,date) =>{
 
 module.exports = {
   getExistMember,
-  getById,
+  getByCode,
   updateWarningMember
 };

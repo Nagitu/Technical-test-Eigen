@@ -20,7 +20,7 @@ async function findAllBook() {
   }
 }
 
-async function findById(code){
+async function findByCode(code){
     try {
         const datas = await db('books').where('code', code).select('*');
         // console.log(datas); 
@@ -96,7 +96,7 @@ async function findBorrowById(borrowId) {
 module.exports = {
     findAllBook,
     findAvailBook,
-    findById,
+    findByCode,
     UpdateStockBook,
     createBorrow,
     createReturn,

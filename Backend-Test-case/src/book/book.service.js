@@ -1,6 +1,6 @@
 
 const db = require("../db");
-const { findAvailBook,findById,UpdateStockBook,createBorrow,createReturn ,countActiveBorrowsByMember, findBorrowById} = require("./book.repository");
+const { findAvailBook,findByCode,UpdateStockBook,createBorrow,createReturn ,countActiveBorrowsByMember, findBorrowById} = require("./book.repository");
 
 const getAvailableBook = async () => {
   try {
@@ -11,9 +11,9 @@ const getAvailableBook = async () => {
   }
 };
 
-const getBookById = async(id) =>{
+const getBookByCode = async(id) =>{
   try {
-    return await findById(id);
+    return await findByCode(id);
   } catch (error) {
     console.error('Error show book info:', error);
     throw new Error('Could not show book');
@@ -62,7 +62,7 @@ const getBorrowById = async (Id)=> {
 
 module.exports = {
  getAvailableBook,
-  getBookById,
+  getBookByCode,
   createNewBorrow,
   updateReturn,
   getCountBorrowed,

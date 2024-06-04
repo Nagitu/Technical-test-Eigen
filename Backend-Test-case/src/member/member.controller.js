@@ -49,7 +49,6 @@ router.get("/", async (req, res) => {
     console.error('Error borrowing book:', error);
     return res.status(500).send('Internal server error');
   }
-  
 });
 
 /**
@@ -114,7 +113,6 @@ router.get("/:code", async (req,res) =>{
     console.error('Error get book detail:', error);
     return res.status(500).send('Internal server error');
   }
- 
 })
 
 

@@ -14,7 +14,7 @@ async function findExistMember() {
     console.error('Error fetching users:', err);
   }
 }
-async function findById(code){
+async function findByCode(code){
     try {
         const member = await db('members').where('code', code).select('*');
         return member
@@ -36,6 +36,6 @@ async function findById(code){
 
 module.exports = {
     findExistMember,
-    findById,
+    findByCode,
     updateWarningDate
 }
